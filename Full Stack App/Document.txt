@@ -1,0 +1,93 @@
+npm i express
+npm i -D nodemon // to start the node server
+npm i mongoose
+npm i express-validator // to validate the json body from api request 
+npm i mongoose // to connect the mongo db 
+
+to start the node js server
+    nodemon ./index.js
+
+
+Password Hashing Salt and Pepper using JWT 
+
+hashing 
+
+Client  ------------>   Backend  ------------>   Database
+(req)                                            hash of Password ="1234vuy98unohgt6r578bugtrd5$^%E57vu"
+{Username, Password}
+
+if passwords are common the hash form of that string is present with the attacker
+to avoid this use SALT Method to store the Hash of the password 
+
+
+
+SALT Methods add its own hash with the password 
+pass = Bhartesh;
+then after salt pass= Bhartesh+66vgFT$#ctyGhkkjnn
+in DB 
+USERNAME            PASSWORD                SALT 
+Bhartesh          vhghbkjnkljmlkmokm   vhghbkjnkljmlkmokm66vgFT$#ctyGhkkjnn
+
+Salt and Pepper
+npm i bcryptJS
+
+const bycrypt = require('bycryptjs);
+const salt = bycrypt.genSalt(10);
+// This will genertes the salt of 10 length
+const securedPass = bycrypt.hash(req.body.password, salt);
+// This will creates a hashed Password and it returns a promise hence we should await for response
+
+
+JWT : Json Web Token
+
+
+Context API
+
+1) useContext Hook
+    Step1:
+    import React, { useState } from "react";
+    import NoteContext from "./NoteCOntext";
+
+    export default function NoteState(props) {
+    const s1 = {
+        name: "Bhartesh",
+        email: "bhrateshgirmal@gmail.com",
+    };
+    const [state, setState] = useState(s1);
+    const NoteContext = useContext();
+
+    return (
+        <NoteContext.Provider value={state}>{props.childern}</NoteContext.Provider>
+    );
+    }
+
+    Step2:
+    import React from 'react';
+    import { useContext } from 'react';
+    import NoteContext from '../Context/NoteCOntext';
+
+    const About =()=>{
+        const context = useContext(NoteContext);
+        return(
+        <NoteContext>
+            <div>
+                This is a context Api Created by {context.name} using {context.email} Email
+            </div>
+        </NoteContext>
+        )
+    }
+    export default About;
+
+2) useLocation hook:
+    const loaction= useLocation();
+    gives the loaction of cuurrent component with pathname and other fields
+
+font awesome:
+crreate a key generted script and add it it page 
+
+Login and Signup verification
+
+
+
+
+
