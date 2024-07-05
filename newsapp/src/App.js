@@ -1,74 +1,56 @@
-
-import { useState } from 'react';
-import './App.css';
-import About from './Components/About';
-import Navbar from './Components/Navbar';
-import TextForm from './Components/TextForm';
-import Alerts from './Components/Alerts';
+import React, { Component } from 'react'
+import Navbar from './Components/Navbar'
+import News from './Components/News'
 import {
-  BrowserRouter as Router,
-  Routes,
   Route,
-} from 'react-router-dom';
+  Routes,
+  BrowserRouter
+} from "react-router-dom";
+// import LoadingBar from 'react-top-loading-bar'
 
-function App() {
+export default class App extends Component {
 
-  const [mode, setMode]= useState('light');
-  const [alert, setAlert]= useState(null);
+  // Passing the Props to the News Component 
 
-  const showAlert= (message, type)=>{
-    setAlert({
-      message:message,
-      type:type,
-    });
-
-    setTimeout(() => {
-      setAlert(null);
-    }, 1000);
+  // exact is used to match the exact path 
+  // key is passed to ompoent to uniquely identify the component and render it when compenent mount 
+  // api_key= process.env.NEWS_APP_API_KEY
+  api_key= "407cfa2f59564f2da7463b707a42cd55"
+ 
+  state={
+    progress:0
   }
 
-  const removeClasses = () =>{
-    document.body.classList.remove('bg-light');
-    document.body.classList.remove('bg-danger');
-    document.body.classList.remove('bg-primary');
-    document.body.classList.remove('bg-warning');
-    document.body.classList.remove('bg-info');
+  setProgress =(progress)=>{
+    this.setState({
+      progress:progress
+    })
   }
-  const togglemode = (cls)=>{
-    removeClasses();
-    document.body.classList.add('bg-'+cls);
-    console.log(cls);
-    if(mode === 'light'){
-      setMode ('dark');
-      document.body.style.backgroundColor="#2c267c";
-      showAlert("Dark Mode has been enabled", "success");
-    }else{
-      setMode ('light');
-      document.body.style.backgroundColor="white";
-      showAlert("Light Mode has been enabled", "success");
-
-    }
-  }
-  return (
-    <>
-    <Router>
-        <Navbar mode={mode} togglemode={togglemode}/>
-        <Alerts alert={alert}/>
-        <div className="container my-3">
-          
-        <switch>
-          <Routes>
-            <Route path="/" element={<TextForm heading="Enter the text to analyze here" mode={mode} showAlert={showAlert}/>} />
+  render() {
+    return (
+      <div>
+        <BrowserRouter>
+        <Navbar/>
+        <div className="container-fluid">
+        {/* <LoadingBar
+        height={5}
+        color='#f11946'
+        progress={this.state.progress}
+      > */}
+          <Routes> 
+          <Route  path="/" element={<News api_key={this.api_key}setProgress={this.setProgress}pageSize={6} key="general" country="in" category="general" />}/>
+          <Route  path="/entertainment" element={<News api_key={this.api_key}setProgress={this.setProgress}pageSize={6} key="entertainment" country="in" category="entertainment" />}/>
+          <Route  path="/business" element={<News api_key={this.api_key}setProgress={this.setProgress}pageSize={6} key="business" country="in" category="business" />}/>
+          <Route  path="/sports" element={<News api_key={this.api_key}setProgress={this.setProgress}pageSize={6} key="sports" country="in" category="sports" />}/>
+          <Route  path="/health" element={<News api_key={this.api_key}setProgress={this.setProgress}pageSize={6} key="health" country="in" category="health" />}/>
+          <Route  path="/science" element={<News api_key={this.api_key}setProgress={this.setProgress}pageSize={6} key="science" country="in" category="science" />}/>
+          <Route  path="/technology" element={<News api_key={this.api_key}setProgress={this.setProgress}pageSize={6} key="technology" country="in" category="technology" />}/>
           </Routes>
-          <Routes>
-            <Route path="/about" element={<About mode={mode} />} />
-          </Routes>
-        </switch>
+
+          {/* </LoadingBar> */}
         </div>
-      </Router>
-    </>
-  );
+        </BrowserRouter>
+      </div>
+    )
+  }
 }
-
-export default App;
-

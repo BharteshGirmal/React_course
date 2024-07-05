@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 
-const mongoURI = "mongodb://localhost:27017/backend";
+const mongoURI = 'mongodb://localhost:27017/';
 
-const connectToMongo = () => {
-  mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
-  });
+const ConnectToMongo = async () => {
+  try {
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected...');
+  } catch (err) {
+    console.error('Error connecting to MongoDB:', err);
+    process.exit(1); // Exit process with failure
+  }
 };
 
-module.exports = connectToMongo;
+module.exports = ConnectToMongo;
