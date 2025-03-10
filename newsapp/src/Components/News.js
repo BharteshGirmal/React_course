@@ -1,134 +1,93 @@
-import React, {  useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export default function News(props) {
-  
-  const [articles, setArticles]=  useState([]);
-  const [state, setState]=  useState([]);
-  const [loading, setLoading] =  useState(true);
-  const [page, setPage]=  useState(1);
-  const [totalResults, setTotalResults]=  useState(0);
-  
-  
-  const capitalizeTitle=(string)=>{
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  document.title = `${capitalizeTitle(props.category)} - NewsApp`;
+const News = (props) => {
+  const [products, setProducts] = useState([]); // Change articles to products
+  const [loading, setLoading] = useState(false);
+  const [showDiv, setShowDiv] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(10);
 
-  // async componentDidMount() {
-    
-  //   updatePages();
-  // }
+  const { category, pageSize, setProgress } = props;
 
-  // const handleNextClick = async () => {
-  //   // setState({ Page: state.Page + 1 });
-  //   setPage(page+1);
-  //     updatePages();
-  // };
-
-  // const handlePrevClick = async () => {
-  //   // setState({ Page: state.Page - 1 });
-  //   setPage(page-1);
-
-  //     updatePages();
-  // };
-
- const updatePages=  async () =>{
-    props.setProgress(10);
-    const URL = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.api_key}&Page=${state.Page}&pagesize=${props.pageSize}`;
-    setState({ loading: true });
-    let data = await fetch(URL);
-    console.log("data : ", data);
-    props.setProgress(50);
-    props.setProgress(70);
-    let parseddata = await data.json();
-    console.log("parseddata : ", parseddata);
-    setArticles(parseddata.articles);
-    setTotalResults(parseddata.totalResults);
-    setLoading(false);
-    props.setProgress(100);
-  }
-
-  useEffect(()=>{
-    updatePages();
-  });
-
-  const fetchMoreData = async () => {
-    setPage(page+1);
-    const URL = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.api_key}&Page=${page}&pagesize=${props.pageSize}`;
-    
-    setState({ loading: true });
+  const updatePages = async () => {
+    setProgress(10);
+    const URL = `https://fakestoreapi.in/api/products/category?type=${category}`; // URL provided
+    console.log(URL);
     setLoading(true);
-    let data = await fetch(URL);
-    console.log("data : ", data);
 
-    let parseddata = await data.json();
-    console.log("parseddata : ", parseddata);
-    setArticles(articles.concat(parseddata.articles));
-    setTotalResults(parseddata.totalResults);
+    let data = await fetch(URL);
+    setProgress(50);
+
+    let parsedData = await data.json();
+    setProgress(70);
+
+    setProducts(parsedData.products); // Use products instead of articles
+    setTotalResults(parsedData.products.length); // Assuming totalResults is just the length of products
     setLoading(false);
+    setShowDiv(true);
+
+    setProgress(100);
   };
 
-  let count=0;
+  useEffect(() => {
+    updatePages();
+  }, [page]);
+
+  const fetchMoreData = async () => {
+    setPage(page + 1);
+  };
+
+  let count = 0;
+  console.log(products.length);
+
   return (
     <>
-    <div className="container my-3">
-      <h1 className="text-center" style={{marginTop:'90px'}}>
-        NewsApp - Top Headlines from {props.category}
-      </h1>
-    </div>
-    <InfiniteScroll
-      dataLength={articles.length}
-      next={fetchMoreData}
-      hasMore={articles.length !== totalResults}
-      loader={loading && <Spinner />}
-    >
-      <div className="container">
-        <div className="row my-4">
-          {articles.map((element) => {
-            count++; // Increment the counter
-            return (
-              <div className="col-md-4" key={count}>
-                <NewsItem
-                  title={element.title ? element.title.slice(0, 45) : ""}
-                  description={
-                    element.description
-                      ? element.description.slice(0, 88)
-                      : ""
-                  }
-                  imageURL={element.urlToImage}
-                  newsURL={element.url}
-                  author={
-                    element.author ? element.author : "Unknown Person"
-                  }
-                  publishDate={element.publishedAt}
-                  source={
-                    element.source.name ? element.source.name : "unknown"
-                  }
-                />
-                <p>Article number: {count}</p> {/* Display the counter */}
-              </div>
-            );
-          })}
-        </div>
+      <div className="container-fluid mt-2">
+        {showDiv && (
+          <h4 className="alert alert-success text-center">
+            Product Showcase - Top Products from {category}
+          </h4>
+        )}
       </div>
-    </InfiniteScroll>
-  </>
-  )
-}
-
-// in functional based component props are decalred outside the the  function
-News.defaultProps = {
-  country: "in",
-  category: "general",
-  pageSize: 6,
+      <InfiniteScroll
+        dataLength={products.length}
+        next={fetchMoreData}
+        hasMore={products.length !== totalResults}
+        loader={loading && <Spinner />}
+      >
+        <div className="container">
+          <div className="row mt-3">
+            {products.map((product) => {
+              count++;
+              return (
+                <div className="col-md-4" key={product.id}>
+                  {" "}
+                  {/* Use unique id */}
+                  <NewsItem
+                    title={product.title ? product.title.slice(0, 45) : ""}
+                    description={
+                      product.description
+                        ? product.description.slice(0, 88)
+                        : ""
+                    }
+                    imageURL={product.image}
+                    price={product.price}
+                    brand={product.brand}
+                    model={product.model}
+                    discount={product.discount}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </InfiniteScroll>
+    </>
+  );
 };
 
-News.propTypes = {
-  country: PropTypes.string,
-  category: PropTypes.string,
-  pageSize: PropTypes.number,
-};
+export default News;

@@ -1,17 +1,22 @@
 import React, { useContext, useState } from 'react';
-import { NotesContext } from '../Context/NoteContext';
+import {  NoteState } from '../Context/NoteContext'; // Ensure NoteContext is properly exported
 import { AlertsContext } from '../Context/AlertContext';
-import Alert from './Alert';
-export default function addNote_API() {
-  const { addNote_API } = useContext(NotesContext);
-  const {showAlert}= useContext(AlertsContext);
+import Alert from './Alert'; // Importing Alert component if needed
+
+export default function AddNoteAPI() {
+  // Use the correct context and state management
+  const { addNote_API } = useContext(NoteState);
+  const { showAlert } = useContext(AlertsContext);
   const [note, setNote] = useState({ title: '', description: '', tag: '' });
   const [error, setError] = useState('');
 
+  // Handle input changes
   const handleOnChange = (event) => {
-    setNote({ ...note, [event.target.name]: event.target.value });
+    const { name, value } = event.target;
+    setNote((prevNote) => ({ ...prevNote, [name]: value }));
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -32,9 +37,10 @@ export default function addNote_API() {
 
   return (
     <div className="container d-block">
-      {/* <Alert/> */}
+      {/* Uncomment if Alert component is used */}
+      {/* <Alert /> */}
       <h3>Add a Note</h3>
-      <form className='col-md-6' id="addNote_APIs" onSubmit={handleSubmit}>
+      <form className="col-md-6" id="addNote_API" onSubmit={handleSubmit}>
         <div className="form-floating mb-3">
           <input
             type="text"

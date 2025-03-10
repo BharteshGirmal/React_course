@@ -1,31 +1,26 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Ignore node_modules and logs
 node_modules/
+npm-debug.log
+yarn-error.log
 
-# testing
-coverage/
+# Ignore build output (except the required one for deployment)
+dist/
+.next/
+.cache/
+public/
 
-# production
-build/
-
-# misc
-.DS_Store
+# Ignore environment variables
 .env
 .env.local
-.env.development.localss
-.env.test.local
-.env.production.local
+.env.development
+.env.production
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Ignore Netlify build directory (optional)
+.netlify/
+functions/node_modules/
 
-# Editor directories and files
+# Ignore editor/IDE files
 .vscode/
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+.DS_Store
+*.swp

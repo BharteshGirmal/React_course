@@ -1,33 +1,76 @@
-import React from 'react'
+import React from "react";
 
-export default function NewsItem(props) {
-  let { title, description, imageURL, newsURL , author, publishDate, source} = props;
+const NewsItem = ({
+  title,
+  description,
+  imageURL,
+  price,
+  brand,
+  model,
+  discount,
+}) => {
+  // Format the description to avoid it being too long
+  const shortDescription = description
+    ? description.slice(0, 88)
+    : "No description available";
 
   return (
-    <div>
-    <div className="card" style={{border: '1px solid black' }}>
-      <img 
-        src={imageURL ? imageURL : "https://media.cnn.com/api/v1/images/stellar/prod/c-gettyimages-2041456513.jpg?c=16x9&q=w_800,c_fill"} 
-        className="card-img-top" 
-        alt="..."
+    <div
+      className="card shadow-lg mb-4"
+      style={{ border: "1px solid #ddd", borderRadius: "8px" }}
+    >
+      {/* Image Section */}
+      <img
+        src={
+          imageURL && imageURL.endsWith(".jpg")
+            ? imageURL
+            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxgrd6iuhDTYxsdjR6Fg50ydpqqWCbPPVZ_w&s"
+        }
+        className="card-img-center"
+        alt="Product Thumbnail"
+        style={{
+          objectFit: "contain",
+          height: "200px",
+          borderTopLeftRadius: "8px",
+          borderTopRightRadius: "8px",
+        }}
       />
-       <div style={{display:'flex-end',justifyContent:'left', position:'absolute', right:'0'}}>
-      <span className="badge rounded-pill bg-success" >
-      {source}</span>
-      </div>
       <div className="card-body">
- 
-    
-        <h5 className="card-title">{title}
-        </h5>
-        <p className="card-text">{description}</p>
-        <p className="card-text"><small>by {author} on {new Date(publishDate).toJSON()}</small></p>
-        <a rel="noreferrer" href={newsURL ? newsURL : "https://your-default-link.com"} target='_blank' className="btn btn-sm btn-dark">
-          Learn More
+        {/* Brand Label */}
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <span className="badge rounded-pill bg-primary">
+            {brand || "Unknown Brand"}
+          </span>
+          {discount > 0 && (
+            <span className="badge rounded-pill bg-danger">
+              {discount}% off
+            </span>
+          )}
+        </div>
+
+        {/* Product Title */}
+        <h5 className="card-title">{title}</h5>
+
+        {/* Short Description */}
+        <p className="card-text text-muted">{shortDescription}</p>
+
+        {/* Price, Model, and Discount Info */}
+        <div className="d-flex justify-content-between">
+          <p className="card-text">
+            <strong>Price:</strong> ${price}
+          </p>
+          <p className="card-text">
+            <strong>Model:</strong> {model || "Unknown Model"}
+          </p>
+        </div>
+
+        {/* Buy Now Button */}
+        <a rel="noreferrer" href="#" className="btn btn-sm btn-dark mt-2">
+          Buy Now
         </a>
       </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
+export default NewsItem;
