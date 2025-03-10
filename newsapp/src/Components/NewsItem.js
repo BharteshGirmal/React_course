@@ -9,7 +9,6 @@ const NewsItem = ({
   model,
   discount,
 }) => {
-  // Format the description to avoid it being too long
   const shortDescription = description
     ? description.slice(0, 88)
     : "No description available";

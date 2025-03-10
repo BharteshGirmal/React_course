@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Navbar from "./Components/Navbar";
 import News from "./Components/News";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-// import LoadingBar from 'react-top-loading-bar'
 
 export default class App extends Component {
   // api_key value

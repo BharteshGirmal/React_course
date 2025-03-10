@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
-import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
@@ -15,8 +14,7 @@ const News = (props) => {
 
   const updatePages = async () => {
     setProgress(10);
-    const URL = `https://fakestoreapi.in/api/products/category?type=${category}`; // URL provided
-    console.log(URL);
+    const URL = `https://fakestoreapi.in/api/products/category?type=${category}`;
     setLoading(true);
 
     let data = await fetch(URL);
@@ -25,8 +23,8 @@ const News = (props) => {
     let parsedData = await data.json();
     setProgress(70);
 
-    setProducts(parsedData.products); // Use products instead of articles
-    setTotalResults(parsedData.products.length); // Assuming totalResults is just the length of products
+    setProducts(parsedData.products);
+    setTotalResults(parsedData.products.length);
     setLoading(false);
     setShowDiv(true);
 
