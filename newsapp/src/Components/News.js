@@ -33,7 +33,7 @@ const News = (props) => {
 
   useEffect(() => {
     updatePages();
-  }, [page]);
+  }, []);
 
   const fetchMoreData = async () => {
     setPage(page + 1);

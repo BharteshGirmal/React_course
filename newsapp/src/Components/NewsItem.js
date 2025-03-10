@@ -64,9 +64,7 @@ const NewsItem = ({
         </div>
 
         {/* Buy Now Button */}
-        <a rel="noreferrer" href="#" className="btn btn-sm btn-dark mt-2">
-          Buy Now
-        </a>
+        <button className="btn btn-sm btn-dark mt-2">Buy Now</button>
       </div>
     </div>
   );
