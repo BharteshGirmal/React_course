@@ -28,6 +28,19 @@ export default class App extends Component {
             > */}
             <Routes>
               <Route
+                path="/"
+                element={
+                  <News
+                    api_key={this.api_key}
+                    setProgress={this.setProgress}
+                    pageSize={12}
+                    key="appliances"
+                    category="appliances"
+                    country="in"
+                  />
+                }
+              />
+              <Route
                 path="/appliances"
                 element={
                   <News
