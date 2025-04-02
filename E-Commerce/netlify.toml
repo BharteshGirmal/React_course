@@ -1,4 +1,4 @@
 [build]
-  base = "/"  # or you can remove this line, as `/` is the default
+  base = "E-Commerce"
   command = "CI=false npm run build"
-  publish = "E-Commerce/build"
+  publish = "build"
