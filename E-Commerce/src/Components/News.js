@@ -10,7 +10,7 @@ const News = (props) => {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(10);
 
-  const { category, pageSize, setProgress } = props;
+  const { category, setProgress } = props;
 
   const updatePages = async () => {
     setProgress(10);
@@ -40,6 +40,8 @@ const News = (props) => {
   };
 
   let count = 0;
+  console.log(count);
+  
   console.log(products.length);
 
   return (
