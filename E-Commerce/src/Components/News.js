@@ -33,7 +33,7 @@ const News = (props) => {
 
   useEffect(() => {
     updatePages();
-  }, []);
+  }, [totalResults]);
 
   const fetchMoreData = async () => {
     setPage(page + 1);
@@ -41,7 +41,7 @@ const News = (props) => {
 
   let count = 0;
   console.log(count);
-  
+
   console.log(products.length);
 
   return (
