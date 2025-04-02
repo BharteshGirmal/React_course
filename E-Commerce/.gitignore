@@ -7,7 +7,7 @@ yarn-error.log
 dist/
 .next/
 .cache/
-public/
+# public/
 
 # Ignore environment variables
 .env
